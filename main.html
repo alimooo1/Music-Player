@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../fontawesome-free-6.2.1-web/css/all.css">
+</head>
+<body>
+    <audio src="songs\01 Believer.mp3"></audio>
+    <div class="player-box">
+        <div class="cover">
+            <img src="images/Imagine-Dragons-Believer-art.jpg" alt="">
+        </div>
+        <div class="titles">
+            <div class="song-name">Believer</div>
+            <div class="artist-name">Imagine Dragons</div>
+        </div>
+        <div class="music-time">
+            <div class="times-information">
+                <div class="current-time">00:00</div>
+                <div class="song-time">03:23</div>
+            </div>
+            <div class="time-line">
+                <div class="filler"></div>
+            </div>
+        </div>
+        <div class="controls">
+            <i class="fa-solid fa-backward"></i>
+            <i class="fa-solid fa-circle-play middle-icon"></i>
+            <!-- <i class="fa-solid fa-circle-pause"></i> -->
+            <i class="fa-solid fa-forward"></i>
+        </div>
+    </div>
+
+    <script src="code.js"></script>
+</body>
+</html>

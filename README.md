@@ -6,9 +6,10 @@ I hope you enjoy it.
 
 ## Details
 It was just a fun training for HTML, CSS and JavaScript. I love Music and I decided to make it.
+ 
+## UPDATE
+On May 4, 2023, Vanilla JavaScript replaced by TypeScript
 
-to See Project Completly, Download all of it with this link:
+It's Available on TypeScript Branch. Check it Please :)
 
-https://drive.google.com/file/d/1O1_TY5L2T16IUgY1WjAD2IX2lbFDkb8z/view?usp=sharing
-
-Extract it into your device. then open main.html with your browser.
+Last version is still available on main branch.

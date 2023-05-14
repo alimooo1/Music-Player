@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/alimooo1/Music-Player#readme",
   "devDependencies": {
+    "css-loader": "^6.7.3",
+    "postcss-loader": "^7.3.0",
+    "sass-loader": "^13.2.2",
     "webpack": "^5.82.1",
     "webpack-cli": "^5.1.1"
   },

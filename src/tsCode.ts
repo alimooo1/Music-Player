@@ -64,8 +64,10 @@ let songs = [
   },
 ];
 
+console.log(JSON.stringify(songs));
+
 let songIndex = 0;
-let kornometer: number;
+let kornometer: any;
 
 playPause.addEventListener("click", playPauseHandler);
 forward.addEventListener("click", nextMusic);

@@ -4,7 +4,8 @@
   "description": "https://user-images.githubusercontent.com/124451160/224468023-f00ee312-595f-4ea0-b5e3-1caf4a146241.mp4",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.config.js"
   },
   "repository": {
     "type": "git",

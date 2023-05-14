@@ -2,42 +2,43 @@ const path = require("path");
 
 module.exports = {
   entry: "./src/index.ts",
-
-  rules: [
-    {
-      test: /\.tsx?$/,
-      use: "ts-loader",
-      exclude: /node_modules/,
-    },
-    {
-      test: /\.(sa|sc|c)ss$/,
-      use: [
-        {
-          loader: "css-loader",
-        },
-        {
-          loader: "postcss-loader",
-        },
-        {
-          loader: "sass-loader",
-          options: {
-            implementation: require("sass"),
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: "ts-loader",
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          {
+            loader: "css-loader",
           },
-        },
-      ],
-    },
-    {
-      test: /\.(png|jpe?g|gif|svg)$/,
-      use: [
-        {
-          loader: "file-loader",
-          options: {
-            outputPath: "images",
+          {
+            loader: "postcss-loader",
           },
-        },
-      ],
-    },
-  ],
+          {
+            loader: "sass-loader",
+            options: {
+              implementation: require("sass"),
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg)$/,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              outputPath: "images",
+            },
+          },
+        ],
+      },
+    ],
+  },
 
   resolve: {
     extensions: [".tsx", ".ts", ".js"],

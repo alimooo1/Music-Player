@@ -21,6 +21,7 @@
   "devDependencies": {
     "css-loader": "^6.7.3",
     "file-loader": "^6.2.0",
+    "html-loader": "^4.2.0",
     "postcss-loader": "^7.3.0",
     "sass-loader": "^13.2.2",
     "ts-loader": "^9.4.2",

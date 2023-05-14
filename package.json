@@ -21,6 +21,7 @@
     "file-loader": "^6.2.0",
     "postcss-loader": "^7.3.0",
     "sass-loader": "^13.2.2",
+    "ts-loader": "^9.4.2",
     "webpack": "^5.82.1",
     "webpack-cli": "^5.1.1"
   },

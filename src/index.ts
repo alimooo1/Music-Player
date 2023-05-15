@@ -1,10 +1,12 @@
+import { TimeLine } from "./Components/TimeLine/TimeLine";
+
 const songName = document.querySelector(".song-name") as HTMLDivElement;
 const artistName = document.querySelector(".artist-name") as HTMLDivElement;
 const coverImage = document.querySelector("img") as HTMLImageElement;
 const backward = document.querySelectorAll("i")[0];
 const playPause = document.querySelectorAll("i")[1];
 const forward = document.querySelectorAll("i")[2];
-const timeline = document.querySelector(".time-line") as HTMLDivElement;
+// const timeline = document.querySelector(".time-line") as HTMLDivElement;
 const filler = document.querySelector(".filler") as HTMLDivElement;
 const audio = document.querySelector("audio") as HTMLAudioElement;
 const time = document.querySelector(".song-time") as HTMLDivElement;
@@ -72,7 +74,7 @@ let kornometer: any;
 playPause.addEventListener("click", playPauseHandler);
 forward.addEventListener("click", nextMusic);
 backward.addEventListener("click", previousSong);
-timeline.addEventListener("click", selectTime);
+// timeline.addEventListener("click", selectTime);
 playerBox.addEventListener("click", firstShowHandler);
 playerBox.addEventListener("mouseover", hoverHandler);
 playerBox.addEventListener("mouseout", unHoverHandler);
@@ -156,14 +158,14 @@ function convertTime(seconds: number) {
   return "0" + minutes + ":" + second;
 }
 
-function selectTime(event: MouseEvent) {
-  const start = (document.body.clientWidth - 456) / 2 + (456 * 7.5) / 100;
-  const current = event.clientX - start;
-  const percent = 100 - (current / timeline.offsetWidth) * 100;
-  filler.style.left = "-" + percent + "%";
-  audio.currentTime = ((100 - percent) * audio.duration) / 100;
-  currentTime.innerHTML = convertTime(audio.currentTime);
-}
+// function selectTime(event: MouseEvent) {
+//   const start = (document.body.clientWidth - 456) / 2 + (456 * 7.5) / 100;
+//   const current = event.clientX - start;
+//   const percent = 100 - (current / timeline.offsetWidth) * 100;
+//   filler.style.left = "-" + percent + "%";
+//   audio.currentTime = ((100 - percent) * audio.duration) / 100;
+//   currentTime.innerHTML = convertTime(audio.currentTime);
+// }
 
 function hoverHandler() {
   playerBox.style.backgroundColor = "rgb(45, 118, 187)";
@@ -204,3 +206,5 @@ function animationHandler() {
   content.style.visibility = "visible";
   content.style.opacity = "1";
 }
+
+customElements.define("time-line", TimeLine);

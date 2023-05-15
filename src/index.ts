@@ -1,3 +1,5 @@
+// import "./style.scss";
+
 const songName = document.querySelector(".song-name") as HTMLDivElement;
 const artistName = document.querySelector(".artist-name") as HTMLDivElement;
 const coverImage = document.querySelector("img") as HTMLImageElement;
@@ -64,7 +66,7 @@ let songs = [
 
 class MusicPlayer {
   private static _songIndex = 0;
-  private static _kornometer: any;
+  private static _kornometer: number;
 
   private static _playPauseHandler() {
     if (playPause.classList.contains("fa-circle-play")) {
@@ -78,7 +80,7 @@ class MusicPlayer {
     playPause.classList.remove("fa-circle-play");
     playPause.classList.add("fa-circle-pause");
     audio.play();
-    this._kornometer = setInterval(this._currentTimeHandler, 1000);
+    this._kornometer = window.setInterval(this._currentTimeHandler, 1000);
   }
 
   private static _pauseSong() {

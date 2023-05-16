@@ -20,9 +20,54 @@ let songs: Song[] = [];
   songs = await getSongs();
 })();
 
+class MusicTimeHandler {
+  private _kornometer: number = 0;
+
+  public setInterval = (Task: Function, time: number) => {
+    this._kornometer = window.setInterval(Task.bind(this), time);
+  };
+
+  public clearInterval = () => {
+    clearInterval(this._kornometer);
+  };
+
+  public currentTimeHandler() {
+    currentTime.innerText = this.convertTime(audio.currentTime);
+    this._fillerHandler();
+    if (audio.duration === audio.currentTime) {
+      clearInterval(this._kornometer);
+    }
+  }
+
+  private _fillerHandler() {
+    const total = audio.currentTime;
+    const songTime = audio.duration;
+    const percent = 100 - (total / songTime) * 100;
+    filler.style.left = "-" + percent + "%";
+  }
+
+  public convertTime(seconds: number): string {
+    const minutes = Math.floor(seconds / 60);
+    let second: number | string = Math.floor(seconds % 60);
+    if (second < 10) {
+      second = "0" + second;
+    }
+    return "0" + minutes + ":" + second;
+  }
+
+  public selectTime(event: MouseEvent) {
+    const start = (document.body.clientWidth - 456) / 2 + (456 * 7.5) / 100;
+    const current = event.clientX - start;
+    const percent = 100 - (current / timeline.offsetWidth) * 100;
+    filler.style.left = "-" + percent + "%";
+    audio.currentTime = ((100 - percent) * audio.duration) / 100;
+    currentTime.innerHTML = this.convertTime(audio.currentTime);
+  }
+}
+
 class MusicPlayer {
   private static _songIndex = 0;
-  private static _kornometer: number;
+  private static _timeHandler = new MusicTimeHandler();
 
   private static _playPauseHandler() {
     if (playPause.classList.contains("fa-circle-play")) {
@@ -36,8 +81,8 @@ class MusicPlayer {
     playPause.classList.remove("fa-circle-play");
     playPause.classList.add("fa-circle-pause");
     audio.play();
-    this._kornometer = window.setInterval(
-      this._currentTimeHandler.bind(this),
+    this._timeHandler.setInterval(
+      this._timeHandler.currentTimeHandler.bind(this._timeHandler),
       1000
     );
   }
@@ -46,7 +91,7 @@ class MusicPlayer {
     playPause.classList.remove("fa-circle-pause");
     playPause.classList.add("fa-circle-play");
     audio.pause();
-    clearInterval(this._kornometer);
+    this._timeHandler.clearInterval();
   }
 
   private static _setSongData() {
@@ -54,7 +99,7 @@ class MusicPlayer {
     songName.innerText = songs[this._songIndex].name;
     artistName.innerText = songs[this._songIndex].artist;
     audio.setAttribute("src", songs[this._songIndex].src);
-    const convertedTime = this._convertTime.bind(this);
+    const convertedTime = this._timeHandler.convertTime.bind(this);
     audio.addEventListener("loadeddata", function () {
       time.innerText = convertedTime(audio.duration);
     });
@@ -82,45 +127,12 @@ class MusicPlayer {
     this._setSongData();
   }
 
-  private static _currentTimeHandler() {
-    currentTime.innerText = this._convertTime(audio.currentTime);
-    this._fillerHandler();
-    if (audio.duration === audio.currentTime) {
-      clearInterval(this._kornometer);
-    }
-  }
-
-  private static _fillerHandler() {
-    const total = audio.currentTime;
-    const songTime = audio.duration;
-    const percent = 100 - (total / songTime) * 100;
-    filler.style.left = "-" + percent + "%";
-  }
-
-  private static _convertTime(seconds: number): string {
-    const minutes = Math.floor(seconds / 60);
-    let second: number | string = Math.floor(seconds % 60);
-    if (second < 10) {
-      second = "0" + second;
-    }
-    return "0" + minutes + ":" + second;
-  }
-
-  private static _selectTime(event: MouseEvent) {
-    const start = (document.body.clientWidth - 456) / 2 + (456 * 7.5) / 100;
-    const current = event.clientX - start;
-    const percent = 100 - (current / timeline.offsetWidth) * 100;
-    filler.style.left = "-" + percent + "%";
-    audio.currentTime = ((100 - percent) * audio.duration) / 100;
-    currentTime.innerHTML = this._convertTime(audio.currentTime);
-  }
-
   public static Run() {
     document.body.style.backgroundImage = "url('../videos/visulizegif.gif')";
     playPause.addEventListener("click", this._playPauseHandler.bind(this));
     forward.addEventListener("click", this._nextMusic.bind(this));
     backward.addEventListener("click", this._previousSong.bind(this));
-    timeline.addEventListener("click", this._selectTime.bind(this));
+    timeline.addEventListener("click", this._timeHandler.selectTime.bind(this));
     playerBox.addEventListener("click", firstShowHandler);
     playerBox.addEventListener("mouseover", hoverHandler);
     playerBox.addEventListener("mouseout", unHoverHandler);

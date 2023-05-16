@@ -1,4 +1,5 @@
 import "./style.scss";
+import { getSongs, Song } from "./Components/GetSongs/GetSongs";
 
 const songName = document.querySelector(".song-name") as HTMLDivElement;
 const artistName = document.querySelector(".artist-name") as HTMLDivElement;
@@ -13,56 +14,11 @@ const body = document.querySelector("body") as HTMLBodyElement;
 const playerBox = document.querySelector(".player-box") as HTMLDivElement;
 const content = document.querySelector(".content") as HTMLDivElement;
 
-let songs = [
-  {
-    id: 0,
-    name: "Believer",
-    artist: "Imagine Dragons",
-    cover: "../images/Imagine-Dragons-Believer-art.jpg",
-    src: "../songs/01 Believer.mp3",
-    background: "../videos/believergif.gif",
-  },
-  {
-    id: 1,
-    name: "Goodbyes",
-    artist: "Post Malone",
-    cover: "../images/Post_Malone_-_Hollywood's_Bleeding.png",
-    src: "../songs/2_5323735572550780476.mp3",
-    background: "../videos/goodbyesgif.gif",
-  },
-  {
-    id: 2,
-    name: "Paid My Dues",
-    artist: "NF",
-    cover: "../images/NF_Clouds_(The_Mixtape)_album_cover.png",
-    src: "../songs/10 PAID MY DUES.mp3",
-    background: "../videos/nfgif.gif",
-  },
-  {
-    id: 3,
-    name: "Blinding Lights",
-    artist: "The Weeknd",
-    cover: "../images/The_Weeknd_-_Blinding_Lights.png",
-    src: "../songs/The Weeknd - Blinding Lights.mp3",
-    background: "../videos/blindinglightgif.gif",
-  },
-  {
-    id: 4,
-    name: "GraveYard",
-    artist: "Halsey",
-    cover: "../images/Halsey_-_Graveyard.png",
-    src: "../songs/Halsey - Graveyard (2019) MELOVAZ.NET.mp3",
-    background: "../videos/graveyardgif.gif",
-  },
-  {
-    id: 5,
-    name: "What I've Done",
-    artist: "Linkin Park",
-    cover: "../images/Minutes_to_Midnight_cover.jpg",
-    src: "../songs/07 What I've Done.mp3",
-    background: "../videos/whativedonegif.gif",
-  },
-];
+let songs: Song[] = [];
+
+(async function fetchSongs() {
+  songs = await getSongs();
+})();
 
 class MusicPlayer {
   private static _songIndex = 0;

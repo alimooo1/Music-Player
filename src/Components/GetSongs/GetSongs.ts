@@ -1,3 +1,5 @@
+import axios from "axios";
+
 interface Song {
   id: number;
   name: string;
@@ -7,10 +9,10 @@ interface Song {
   background: string;
 }
 
-const getMusics = async () => {
-  const data = await fetch("./Songs.json");
-  const result = await data.json();
-  return result as Song[];
+const getSongs = () => {
+  return axios.get("./Songs.json").then((response) => {
+    return response.data as Song[];
+  });
 };
 
-export { getMusics, Song };
+export { getSongs, Song };

@@ -1,5 +1,6 @@
 import "./style.scss";
 import { getSongs, Song } from "./Components/GetSongs/GetSongs";
+import { MusicTimeHandler } from "./Components/MusicTimeHandler/MusicTimeHandler";
 
 const songName = document.querySelector(".song-name") as HTMLDivElement;
 const artistName = document.querySelector(".artist-name") as HTMLDivElement;
@@ -20,81 +21,36 @@ let songs: Song[] = [];
   songs = await getSongs();
 })();
 
-class MusicTimeHandler {
-  private _kornometer: number = 0;
-
-  public setInterval = (Task: Function, time: number) => {
-    this._kornometer = window.setInterval(Task.bind(this), time);
-  };
-
-  public clearInterval = () => {
-    clearInterval(this._kornometer);
-  };
-
-  public currentTimeHandler() {
-    currentTime.innerText = this.convertTime(audio.currentTime);
-    this._fillerHandler();
-    if (audio.duration === audio.currentTime) {
-      clearInterval(this._kornometer);
-    }
-  }
-
-  private _fillerHandler() {
-    const total = audio.currentTime;
-    const songTime = audio.duration;
-    const percent = 100 - (total / songTime) * 100;
-    filler.style.left = "-" + percent + "%";
-  }
-
-  public convertTime(seconds: number): string {
-    const minutes = Math.floor(seconds / 60);
-    let second: number | string = Math.floor(seconds % 60);
-    if (second < 10) {
-      second = "0" + second;
-    }
-    return "0" + minutes + ":" + second;
-  }
-
-  public selectTime(event: MouseEvent) {
-    const start = (document.body.clientWidth - 456) / 2 + (456 * 7.5) / 100;
-    const current = event.clientX - start;
-    const percent = 100 - (current / timeline.offsetWidth) * 100;
-    filler.style.left = "-" + percent + "%";
-    audio.currentTime = ((100 - percent) * audio.duration) / 100;
-    currentTime.innerHTML = this.convertTime(audio.currentTime);
-  }
-}
-
 class MusicPlayer {
-  private static _songIndex = 0;
-  private static _timeHandler = new MusicTimeHandler();
+  protected static _songIndex = 0;
+  protected static _timeHandler = new MusicTimeHandler();
 
   private static _playPauseHandler() {
     if (playPause.classList.contains("fa-circle-play")) {
-      this._playSong();
+      MusicControls._playSong();
     } else {
-      this._pauseSong();
+      MusicControls._pauseSong();
     }
   }
 
-  private static _playSong() {
-    playPause.classList.remove("fa-circle-play");
-    playPause.classList.add("fa-circle-pause");
-    audio.play();
-    this._timeHandler.setInterval(
-      this._timeHandler.currentTimeHandler.bind(this._timeHandler),
-      1000
-    );
-  }
+  // private static _playSong() {
+  //   playPause.classList.remove("fa-circle-play");
+  //   playPause.classList.add("fa-circle-pause");
+  //   audio.play();
+  //   this._timeHandler.setInterval(
+  //     this._timeHandler.currentTimeHandler.bind(this._timeHandler),
+  //     1000
+  //   );
+  // }
 
-  private static _pauseSong() {
-    playPause.classList.remove("fa-circle-pause");
-    playPause.classList.add("fa-circle-play");
-    audio.pause();
-    this._timeHandler.clearInterval();
-  }
+  // private static _pauseSong() {
+  //   playPause.classList.remove("fa-circle-pause");
+  //   playPause.classList.add("fa-circle-play");
+  //   audio.pause();
+  //   this._timeHandler.clearInterval();
+  // }
 
-  private static _setSongData() {
+  protected static _setSongData() {
     coverImage.setAttribute("src", songs[this._songIndex].cover);
     songName.innerText = songs[this._songIndex].name;
     artistName.innerText = songs[this._songIndex].artist;
@@ -111,7 +67,54 @@ class MusicPlayer {
     filler.style.left = "-100%";
   }
 
-  private static _nextMusic() {
+  // private static _nextMusic() {
+  //   this._songIndex++;
+  //   if (this._songIndex >= songs.length) {
+  //     this._songIndex = 0;
+  //   }
+  //   this._setSongData();
+  // }
+
+  // private static _previousSong() {
+  //   this._songIndex--;
+  //   if (this._songIndex < 0) {
+  //     this._songIndex = songs.length - 1;
+  //   }
+  //   this._setSongData();
+  // }
+
+  public static Run() {
+    document.body.style.backgroundImage = "url('../videos/visulizegif.gif')";
+    playPause.addEventListener("click", this._playPauseHandler.bind(this));
+    forward.addEventListener("click", MusicControls._nextMusic.bind(this));
+    backward.addEventListener("click", MusicControls._previousSong.bind(this));
+    timeline.addEventListener("click", this._timeHandler.selectTime.bind(this));
+    playerBox.addEventListener("click", firstShowHandler);
+    playerBox.addEventListener("mouseover", hoverHandler);
+    playerBox.addEventListener("mouseout", unHoverHandler);
+    playerBox.addEventListener("animationend", animationHandler);
+  }
+}
+
+class MusicControls extends MusicPlayer {
+  public static _playSong() {
+    playPause.classList.remove("fa-circle-play");
+    playPause.classList.add("fa-circle-pause");
+    audio.play();
+    this._timeHandler.setInterval(
+      this._timeHandler.currentTimeHandler.bind(this._timeHandler),
+      1000
+    );
+  }
+
+  public static _pauseSong() {
+    playPause.classList.remove("fa-circle-pause");
+    playPause.classList.add("fa-circle-play");
+    audio.pause();
+    this._timeHandler.clearInterval();
+  }
+
+  public static _nextMusic() {
     this._songIndex++;
     if (this._songIndex >= songs.length) {
       this._songIndex = 0;
@@ -119,24 +122,12 @@ class MusicPlayer {
     this._setSongData();
   }
 
-  private static _previousSong() {
+  public static _previousSong() {
     this._songIndex--;
     if (this._songIndex < 0) {
       this._songIndex = songs.length - 1;
     }
     this._setSongData();
-  }
-
-  public static Run() {
-    document.body.style.backgroundImage = "url('../videos/visulizegif.gif')";
-    playPause.addEventListener("click", this._playPauseHandler.bind(this));
-    forward.addEventListener("click", this._nextMusic.bind(this));
-    backward.addEventListener("click", this._previousSong.bind(this));
-    timeline.addEventListener("click", this._timeHandler.selectTime.bind(this));
-    playerBox.addEventListener("click", firstShowHandler);
-    playerBox.addEventListener("mouseover", hoverHandler);
-    playerBox.addEventListener("mouseout", unHoverHandler);
-    playerBox.addEventListener("animationend", animationHandler);
   }
 }
 
@@ -181,3 +172,5 @@ function animationHandler() {
 }
 
 MusicPlayer.Run();
+
+export { MusicPlayer };

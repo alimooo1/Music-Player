@@ -21,6 +21,8 @@ In this implementation, I used "OOP" to have a modular program.
 
 I also used "Webpack" to bundle the codes. I installed and configured it myself.
 
-In the end, I used "Axios" for fetching data instead of "fetch" and "SASS" instead of "CSS".
+I used "Axios" for fetching data from a JSON file as a database.
+
+In the end, I replaced "CSS" with "SASS".
 
 The last versions are still available on other branches.
